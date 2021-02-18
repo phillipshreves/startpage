@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Title for Project</title>
+
+	<!-- materialize -->
+	<script type="text/javascript" src="../node_modules/hammerjs/hammer.min.js"></script>
+	<script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="../node_modules/materialize-css/dist/js/materialize.min.js"></script>
+	<link rel="stylesheet" href="./index.css">
+	<link rel="stylesheet" href="./materialize.css">
+
+	<!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+	<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+
+	<!-- mobile device-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+	<nav class="nav-extended">
+		<div class="nav-wrapper">
+			<a href="#" class="brand-logo center">Brand Logo for Project</a>
+			<ul id="nav-mobile" class="right hide-on-small-only">
+				<li><a href="#">Menu for project</a></li>
+			</ul>
+		</div>
+		<div class="nav-content">
+			<ul class="tabs tabs-transparent">
+				<li class="tab"><a class="active" href="#tab1"><i class="material-icons left">code</i>Tab 1</a></li>
+				<li class="tab"><a href="#tab2"><i class="material-icons left">search</i>Tab 2</a></li>
+			</ul>
+		</div>
+	</nav>
+
+
+	<div class="container">
+		<div id="tab1" class="col s12">
+			<div class = "row">
+				<form class="col s12" id="input_text_form">
+					<div class="row valign-wrapper">
+						<div class="col s2">
+							<a class="waves-effect waves-light btn" onclick="formatter(document.getElementById('input_text').value)">Format</a>
+						</div>
+						<div class="input-field col s10">
+							<input placeholder="Input" id="input_text" type="text">
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<textarea placeholder="Output" id="output_text" class="materialize-textarea"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="tab2" class="col s12">
+			<p>This is tab 2</p>
+		</div>
+	</div>
+	<script>M.AutoInit();</script>
+</body>
+</html>
