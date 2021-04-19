@@ -58,19 +58,18 @@ let nav_element =
         </ul>\r\
     </div>";
 
+// Navigation tabs
+let nav_tabs = "";
 for ( let navigation_tabs_key in navigation_tabs){
     let icon = navigation_tabs[navigation_tabs_key].icon;
-    nav_element = nav_element +
+    nav_tabs = nav_tabs +
         "<li class=\"tab\"><a href=\"#" + navigation_tabs_key + "\"><i class=\"material-icons left\">" + icon + "</i>" + navigation_tabs_key + "</a></li>"
 };
-
-
-// Navigation tabs
-nav_element = 
+nav_element = nav_element +
     "<nav class=\"nav-extended\">\r\
     	<div class=\"nav-content\">\r\
 			<ul class=\"tabs tabs-transparent\">\r\
-                " + nav_element + "\r\
+                " + nav_tabs + "\r\
 			</ul>\r\
 		</div>\r\
 	</nav>";
@@ -92,7 +91,7 @@ for ( let navigation_tabs_key in navigation_tabs){
                 "<li class=\"collection-item avatar\" id=\"" + title + "\">\r\
                     <a href=\"" + link + "\">\r\
                         <img src=\"" + image + "\" alt=\"" + title + "\" class=\"circle\">\r\
-                        <h4 class=\"title\">" + title + "</h4>\r\
+                        <span class=\"title\">" + title + "</span>\r\
                         <span class=\"description\">" + description + "</span>\r\
                     </a>\r\
                 </li>"
