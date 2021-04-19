@@ -1,72 +1,45 @@
 // Link Generator
 //
 //
-const fs = require('fs');
-
-
-// Structure for links
-interface Entity {
-    title: string;
-    description: string;
-    link: string;
-    image: string;
-};
-// Collection wrapper
-interface EntityCollection {
-    [name: string]: Entity[];
-};
-// Structure for navigation tabs 
-interface NavigationTab {
-    icon: string;
-    entity_collections: EntityCollection;
-};
-// Navigation wrapper
-interface NavigationTabs {
-    [name: string]: NavigationTab;
-};
-
-
+var fs = require('fs');
+;
+;
+;
+;
 // Navigation tabs examples
-let navigation_tabs: NavigationTabs =
-{ 
-    "Home":{
-        "icon":"home",
-        "entity_collections":{
-            "Administration":[
+var navigation_tabs = {
+    "Home": {
+        "icon": "home",
+        "entity_collections": {
+            "Administration": [
                 {
                     title: "Nginx Proxy Manager",
                     description: "Reverse proxy manager",
                     link: "http://reverse-proxy.phillips.work/login",
-                    image: "../images/icon-nginx-proxy-manager.png",
+                    image: "../images/icon-nginx-proxy-manager.png"
                 }
             ]
         }
     }
 };
-
-
 //
 // Assemble HTML
 //
-
 // Navigation header
-let nav_element =
-    "<div class=\"nav-wrapper\">\
+var nav_element = "<div class=\"nav-wrapper\">\
         <a href=\"#\" class=\"brand-logo center\">Life is Good</a>\
         <ul id=\"nav-mobile\" class=\"right hide-on-small-only\">\
             <li><a href=\"#\">To God be the glory.</a></li>\
         </ul>\
     </div>";
-
-for ( let navigation_tabs_key in navigation_tabs){
-    let icon = navigation_tabs[navigation_tabs_key].icon;
+for (var navigation_tabs_key in navigation_tabs) {
+    var icon = navigation_tabs[navigation_tabs_key].icon;
     nav_element = nav_element +
-        "<li class=\"tab\"><a href=\"#" + navigation_tabs_key + "\"><i class=\"material-icons left\">" + icon + "</i>" + navigation_tabs_key + "</a></li>"
-};
-
-
+        "<li class=\"tab\"><a href=\"#" + navigation_tabs_key + "\"><i class=\"material-icons left\">" + icon + "</i>" + navigation_tabs_key + "</a></li>";
+}
+;
 // Navigation tabs
-nav_element = 
+nav_element =
     "<nav class=\"nav-extended\">\
     	<div class=\"nav-content\">\
 			<ul class=\"tabs tabs-transparent\">\
@@ -74,20 +47,17 @@ nav_element =
 			</ul>\
 		</div>\
 	</nav>";
-
-
 // Tab element
-let tab_element: string = "";
-for ( let navigation_tabs_key in navigation_tabs){
-    let navigation_tab_object = navigation_tabs[navigation_tabs_key];
-
-    let entity_collection_element = "";
-    for ( let entity_collection in navigation_tab_object.entity_collections ) {
-        let entity_collection_object = navigation_tab_object.entity_collections[entity_collection];
-
-        let entity_element = "";
-        for ( let entity_object of entity_collection_object ){
-            let { title, description, link, image } = entity_object;
+var tab_element = "";
+for (var navigation_tabs_key in navigation_tabs) {
+    var navigation_tab_object = navigation_tabs[navigation_tabs_key];
+    var entity_collection_element = "";
+    for (var entity_collection in navigation_tab_object.entity_collections) {
+        var entity_collection_object = navigation_tab_object.entity_collections[entity_collection];
+        var entity_element = "";
+        for (var _i = 0, entity_collection_object_1 = entity_collection_object; _i < entity_collection_object_1.length; _i++) {
+            var entity_object = entity_collection_object_1[_i];
+            var title = entity_object.title, description = entity_object.description, link = entity_object.link, image = entity_object.image;
             entity_element = entity_element +
                 "<li class=\"collection-item avatar\" id=\"" + title + "\">\
                     <a href=\"" + link + "\">\
@@ -95,32 +65,28 @@ for ( let navigation_tabs_key in navigation_tabs){
                         <span class=\"title\">" + title + "</span>\
                         <span class=\"description\">" + description + "</span>\
                     </a>\
-                </li>"
+                </li>";
         }
-
-
         // Template for links
-        entity_collection_element = entity_collection_element + 
+        entity_collection_element = entity_collection_element +
             "<ul class=\"collection with-header\" id=\"" + entity_collection + "\">\
                 <li class=\"collection-header\"><h4>" + entity_collection + "</h4></li>\
                 " + entity_element + "\
             </ul>";
-    };
-
-    tab_element = tab_element +  
-		"<div id=\"" + navigation_tabs_key + "\" class=\"col s12\">\
+    }
+    ;
+    tab_element = tab_element +
+        "<div id=\"" + navigation_tabs_key + "\" class=\"col s12\">\
 			<div class=\"row\">\
 				<div class=\"col s12 m6 l4\">\
                     " + entity_collection_element + "\
 				</div>\
 			</div>\
-		</div>"
-};
-
-
-let body_element = 
-	nav_element + 
-	"<div class=\"container\">\
+		</div>";
+}
+;
+var body_element = nav_element +
+    "<div class=\"container\">\
 		<div id=\"work\" class=\"col s12\">\
 			<div class = \"row\">\
 				<form class=\"col s12\" id=\"input_text_form\">\
@@ -154,11 +120,8 @@ let body_element =
 				</div>\
 			</div>\
 		</div>\
-	</div>"
-
-
-let index_page: String = 
-"<!DOCTYPE html>\
+	</div>";
+var index_page = "<!DOCTYPE html>\
 <html>\
 <head>\
 	<meta charset=\"UTF-8\">\
@@ -182,12 +145,10 @@ let index_page: String =
     " + body_element + "\
 	<script>M.AutoInit();</script>\
 </body>\
-</html>"
-
-
-fs.writeFile('./index_test.html', index_page, err => {
-	if (err) {
-		console.error(err)
-		return
-	}
-})
+</html>";
+fs.writeFile('./index_test.html', index_page, function (err) {
+    if (err) {
+        console.error(err);
+        return;
+    }
+});
