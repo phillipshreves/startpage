@@ -146,7 +146,7 @@ var index_page = "<!DOCTYPE html>\
 	<script>M.AutoInit();</script>\
 </body>\
 </html>";
-fs.writeFile('./index_test.html', index_page, function (err) {
+fs.writeFile('./index.html', index_page, function (err) {
     if (err) {
         console.error(err);
         return;
