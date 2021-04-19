@@ -26,7 +26,7 @@ var navigation_tabs = {
 // Assemble HTML
 //
 // Navigation header
-var nav_element = "<div class=\"nav-wrapper\">\r\
+var nav_wrapper = "<div class=\"nav-wrapper\">\r\
         <a href=\"#\" class=\"brand-logo center\">Life is Good</a>\r\
         <ul id=\"nav-mobile\" class=\"right hide-on-small-only\">\r\
             <li><a href=\"#\">To God be the glory.</a></li>\r\
@@ -40,8 +40,8 @@ for (var navigation_tabs_key in navigation_tabs) {
         "<li class=\"tab\"><a href=\"#" + navigation_tabs_key + "\"><i class=\"material-icons left\">" + icon + "</i>" + navigation_tabs_key + "</a></li>";
 }
 ;
-nav_element = nav_element +
-    "<nav class=\"nav-extended\">\r\
+var nav_element = "<nav class=\"nav-extended\">\r\
+		" + nav_wrapper + "\
     	<div class=\"nav-content\">\r\
 			<ul class=\"tabs tabs-transparent\">\r\
                 " + nav_tabs + "\r\
