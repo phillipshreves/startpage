@@ -185,7 +185,7 @@ let index_page: String =
 </html>"
 
 
-fs.writeFile('./index_test.html', index_page, err => {
+fs.writeFile('./index.html', index_page, err => {
 	if (err) {
 		console.error(err)
 		return
