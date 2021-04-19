@@ -103,6 +103,6 @@ dist
 .tern-port
 
 # Generated files
-**/generator.js
-**/index.html
-**/index.bak.html
+generator.js
+index.html
+index.bak.html
