@@ -26,9 +26,8 @@ interface NavigationTabs {
 };
 
 
-// Navigation tabs examples
-let navigation_tabs: NavigationTabs =
-{ 
+// Navigation tabs data
+let navigation_tabs: NavigationTabs = { 
     "Home":{
         "icon":"home",
         "entity_collections":{
@@ -185,7 +184,7 @@ let index_page: String =
 </html>"
 
 
-fs.writeFile('./index.html', index_page, err => {
+fs.writeFile('../output/index.html', index_page, err => {
 	if (err) {
 		console.error(err)
 		return
