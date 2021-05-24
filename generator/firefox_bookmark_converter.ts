@@ -10,21 +10,49 @@ interface Entity {
     description: string;
     link: string;
     image: string;
-};
+};;
 // Collection wrapper
 interface EntityCollection {
-    [name: string]: Entity[];
+	name: string;
+    entity: Entity[];
 };
 // Structure for navigation tabs 
 interface NavigationTab {
+	name: string;
     icon: string;
-    entity_collections: EntityCollection;
+    entity_collections: EntityCollection[];
 };
 // Navigation wrapper
 interface NavigationTabs {
-    [name: string]: NavigationTab;
+	tabs: NavigationTab[];
 };
 
+
+// Navigation tabs data
+let navigation_tabs: NavigationTabs = [{ 
+    tabs:[{
+		name: "Home",
+        icon:"home",
+        entity_collections:[{
+			name: "test",
+			entity: [{
+				title: "Nginx Proxy Manager",
+				description: "Reverse proxy manager",
+				link: "http://reverse-proxy.phillips.work/login",
+                image: "../images/icon-nginx-proxy-manager.png"
+			}]
+		},
+        {
+            name: "testwo",
+            entity: [{
+                title: "test",
+                description: "test description",
+                link: "test link",
+                image: "../images/icon-nginx-proxy-manager.png"
+            }]
+        }]
+    }] 
+}];
 
 // HTML functions
 function create_bookmark(
@@ -35,23 +63,6 @@ function create_bookmark(
     ) {
         //HTMl goes here
 }
-
-// Navigation tabs data
-let navigation_tabs_example: NavigationTabs = { 
-    "Home":{
-        "icon":"home",
-        "entity_collections":{
-            "Administration":[
-                {
-                    title: "Nginx Proxy Manager",
-                    description: "Reverse proxy manager",
-                    link: "http://reverse-proxy.phillips.work/login",
-                    image: "../images/icon-nginx-proxy-manager.png",
-                }
-            ]
-        }
-    }
-};
 
 let bookmarks_file= fs.readFile('./data/tabs.json', 'utf8', (err, data) => {
 	if (err) {
@@ -64,7 +75,7 @@ let bookmarks_file= fs.readFile('./data/tabs.json', 'utf8', (err, data) => {
 let bookmarks = JSON.parse(bookmarks_file);
 
 // Parse out data
-/ loop over root children
+// loop over root children
 for ( let location_string in bookmarks.children ) {
 	let location = JSON.parse(location_string);
 

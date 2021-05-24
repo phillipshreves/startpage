@@ -4,44 +4,30 @@
 const fs = require('fs');
 
 
+/*
 // Structure for links
 interface Entity {
     title: string;
     description: string;
     link: string;
     image: string;
-};
+};;
 // Collection wrapper
 interface EntityCollection {
-    [name: string]: Entity[];
+	name: string;
+    entity: Entity[];
 };
 // Structure for navigation tabs 
 interface NavigationTab {
+	name: string;
     icon: string;
-    entity_collections: EntityCollection;
+    entity_collections: EntityCollection[];
 };
 // Navigation wrapper
 interface NavigationTabs {
-    [name: string]: NavigationTab;
+	tabs: NavigationTab[];
 };
-
-
-// Navigation tabs data
-let navigation_tabs: NavigationTabs = { 
-    "Home":{
-        "icon":"home",
-        "entity_collections":{
-            "Administration":[
-                {
-                    title: "Nginx Proxy Manager",
-                    description: "Reverse proxy manager",
-                    link: "http://reverse-proxy.phillips.work/login",
-                    image: "../images/icon-nginx-proxy-manager.png",
-                }
-            ]
-        }
-    }
-};
+*/
 
 
 //
