@@ -4,31 +4,6 @@
 const fs = require('fs');
 
 
-/*
-// Structure for links
-interface Entity {
-    title: string;
-    description: string;
-    link: string;
-    image: string;
-};;
-// Collection wrapper
-interface EntityCollection {
-	name: string;
-    entity: Entity[];
-};
-// Structure for navigation tabs 
-interface NavigationTab {
-	name: string;
-    icon: string;
-    entity_collections: EntityCollection[];
-};
-// Navigation wrapper
-interface NavigationTabs {
-	tabs: NavigationTab[];
-};
-*/
-
 
 //
 // Assemble HTML
