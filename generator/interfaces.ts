@@ -2,6 +2,7 @@
 interface Entity {
     title: string;
     description: string;
+    breadcrumb: string;
     link: string;
     image: string;
 };;

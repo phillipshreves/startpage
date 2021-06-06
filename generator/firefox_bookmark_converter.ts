@@ -5,110 +5,160 @@ const fs = require('fs');
 import { NavigationTab, EntityCollection, Entity } from './interfaces';
 
 
-// HTML functions
-function create_bookmark({
-    title,
-    title:description,
-    uri:link,
-    iconuri:image
-    }) {
-    //HTMl goes here
-    let bookmark: string = 
-    `<li class=\"collection-item avatar\" id=\"${title}\">` + 
-        `<a href=\"${link}\">` +
-        `<img src=\"${image}\" alt=\"${title}\" class=\"circle\">` +
-        `<span class=\"title\">${title}</span>` +
-        `<span class=\"description\">${description}</span>` +
-        `</a>` + 
-    `</li>`;
-    return bookmark
-}
+function push_to_collection(
+    collection: EntityCollection[],
+    collection_index: number, 
+    breadcrumb: string,
+    { 
+        title,
+        uri: description,
+        uri: link,
+        iconuri: image
+    }
+){
+    collection[collection_index].entity.push({
+        title, 
+        description,
+        breadcrumb,
+        link,
+        image
+    })
+    return collection;
+};
+
+function create_collection(name){
+    let collection: EntityCollection = {
+        name,
+        entity: []
+    };
+
+    return collection
+};
+
 
 function parse_file(file){
     let bookmarks = JSON.parse(file);
-    let index_page: string = '';
+    let entity_collections: EntityCollection[] = [];
+    let breadcrumb: string;
 
     // Parse out data
     // loop over root children
     for ( let location of bookmarks.children ) {
-        let bookmark_top_list: string = '';
-
         if ( location.title == 'toolbar') {
+            let entity_index = entity_collections.length;
+
+
             // loop over toolbar children
             for ( let entity of location.children ) {
-                let bookmark_first_list: string = '';
-
                 // Check if this is a folder or a bookmark
                 if ( entity.children != undefined ) {
+                    let folder_first_index = entity_collections.length;
+                    
+
                     // loop over folders/top level bookmarks
                     for ( let bookmark_first of entity.children ) {
-                        let bookmark_second_list: string = '';
-
                         if ( bookmark_first.children != undefined ) {
+                            let folder_second_index = entity_collections.length;
+
+
                             // loop over folders/first level bookmarks
                             for ( let bookmark_second of bookmark_first.children ) {
-                                let bookmark_third_list: string = '';
-
                                 if ( bookmark_second.children != undefined ) {
+                                    let folder_third_index = entity_collections.length;
+
+
                                     //loop over folders/second level bookmarks
                                     for ( let bookmark_third of bookmark_second.children ) {
-                                        let bookmark_fourth_list: string = '';
-
                                         if ( bookmark_third.children != undefined ) {
+                                            let folder_fourth_index = entity_collections.length;
+
+
                                             //loop over third level bookmarks
                                             for ( let bookmark_fourth of bookmark_third.children){
-                                            // this is as deep as we go for now
-                                            // parse the bookmark
-                                                bookmark_fourth_list = bookmark_fourth_list + create_bookmark(bookmark_fourth);
-                                            }
-                                        } else {
-                                            // This is a bookmark and we can create a link
-                                            bookmark_third_list = bookmark_third_list + create_bookmark(bookmark_third);
-                                        }
-                                        index_page = bookmark_third_list + bookmark_fourth_list ;
+                                                // this is as deep as we go for now
 
+                                                // initialize if this is the first bookmark
+                                                if(entity_collections[folder_second_index] == undefined){
+                                                    entity_collections[folder_fourth_index] = create_collection(bookmark_third.title);
+                                                }
+
+                                                // parse the bookmark
+                                                breadcrumb = `${entity.title}.${bookmark_first.title}.${bookmark_second.title}.${bookmark_third.title}`;
+                                                entity_collections = push_to_collection(entity_collections,folder_fourth_index,breadcrumb,bookmark_fourth)
+                                            }
+
+                                        } else {
+                                            // initialize if this is the first bookmark
+                                            if(entity_collections[folder_second_index] == undefined){
+                                                entity_collections[folder_third_index] = create_collection(bookmark_second.title);
+                                            }
+
+                                            // This is a bookmark and we can create a link
+                                            breadcrumb = `${entity.title}.${bookmark_first.title}.${bookmark_second.title}`;
+                                            entity_collections = push_to_collection(entity_collections,folder_third_index,breadcrumb,bookmark_third)
+                                        }
                                     }
+
+
                                 } else {
+                                    // initialize if this is the first bookmark
+                                    if(entity_collections[folder_second_index] == undefined){
+                                        entity_collections[folder_second_index] = create_collection(bookmark_first.title);
+                                    }
+
                                     // This is a bookmark and we can create a link
-                                    bookmark_second_list = bookmark_second_list + create_bookmark(bookmark_second);
+                                    breadcrumb = `${entity.title}.${bookmark_first.title}`;
+                                    entity_collections = push_to_collection(entity_collections,folder_second_index,breadcrumb,bookmark_second)
                                 }
-                                index_page = index_page + bookmark_second_list;
                             }
                         } else {
+                            // initialize if this is the first bookmark
+                            if(entity_collections[folder_first_index] == undefined){
+                                entity_collections[folder_first_index] = create_collection(entity.title);
+                            }
+
                             // This is a bookmark and we can create a link
-                            bookmark_first_list = bookmark_first_list + create_bookmark(bookmark_first);
+                            breadcrumb = `${entity.title}`;
+                            entity_collections = push_to_collection(entity_collections,folder_first_index,breadcrumb,bookmark_first)
                         }
-                        index_page = index_page + bookmark_first_list;
                     }
                 } else {
+                    // initialize if this is the first bookmark
+                    if(entity_collections[entity_index] == undefined){
+                        entity_collections[entity_index] = create_collection(location.title);
+                    }
+
                     // This is a bookmark and we can create a link
-                    bookmark_top_list = bookmark_top_list + create_bookmark(entity);
+                    breadcrumb = `` ;
+                    entity_collections = push_to_collection(entity_collections,entity_index,breadcrumb,location)
                 }
-                index_page = index_page + bookmark_top_list;
             }
         }
     }
 
-    console.log(JSON.stringify(index_page))
+    return entity_collections
 }
 
 
-//let navigation_tabs: NavigationTab[];
-let navigation_tabs: any;
-navigation_tabs = fs.readFile('./data/tabs.json', 'utf8', (err, data) => {
-	if (err) {
-		console.error(err)
-		return
-	}
-	parse_file(data)
+
+fs.readFile('./data/firefox_bookmarks_export.json', 'utf8', (err, data) => {
+    if (err) {
+        console.error(err)
+        return
+    }
+
+    let navigation_tabs: NavigationTab[] = [{
+        name: 'home',
+        icon: 'Home',
+        entity_collections: parse_file(data)
+    }];
+
+    fs.writeFile('./data/tabs.json', JSON.stringify(navigation_tabs), err => {
+        if (err) {
+            console.error(err)
+            return
+        }
+    })
 })
 
 
-/*
-fs.writeFile('../output/index.html', index_page, err => {
-	if (err) {
-		console.error(err)
-		return
-	}
-})
-*/

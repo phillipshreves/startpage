@@ -9,6 +9,25 @@ const fs = require('fs');
 // Assemble HTML
 //
 
+// HTML functions
+function create_bookmark({
+    title,
+    title:description,
+    uri:link,
+    iconuri:image
+    }) {
+    //HTMl goes here
+    let bookmark: string = 
+    `<li class=\"collection-item avatar\" id=\"${title}\">` + 
+        `<a href=\"${link}\">` +
+        `<img src=\"${image}\" alt=\"${title}\" class=\"circle\">` +
+        `<span class=\"title\">${title}</span>` +
+        `<span class=\"description\">${description}</span>` +
+        `</a>` + 
+    `</li>`;
+    return bookmark
+}
+
 // Navigation header
 let nav_wrapper =
     "<div class=\"nav-wrapper\">\r\
